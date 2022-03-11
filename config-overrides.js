@@ -1,16 +1,23 @@
 const path = require('path')
+const multipleEntry = require('react-app-rewire-multiple-entry')
 
 module.exports = function override(config, env) {
-  //do stuff with the webpack config...
-  console.log(config.entry)
 
-  config.entry = {
-    index: path.resolve(__dirname, 'src/index.js'),
-    chat: path.resolve(__dirname, 'src/chat-entry.js'),
-  }
+  const plugins = config.plugins.filter(p => p.constructor.name === 'HtmlWebpackPlugin')
+  plugins.forEach(p => {
+    p.options = p.userOptions
+  })
 
-  // console.log(config.plugins[0])
+  multipleEntry([{
+    entry: 'src/chat-entry.js',
+    template: 'public/chat.html',
+    outPath: '/chat.html'
+  }]).addMultiEntry(config)
 
-  // throw new Error()
+  plugins.forEach(p => {
+    p.userOptions = p.options
+    delete p.options
+  })
+
   return config;
 }

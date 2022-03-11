@@ -1,4 +1,3 @@
-const path = require('path')
 const multipleEntry = require('react-app-rewire-multiple-entry')
 
 module.exports = function override(config, env) {

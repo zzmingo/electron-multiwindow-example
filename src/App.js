@@ -11,7 +11,7 @@ function App() {
         </p>
         <a
           className="App-link"
-          href="https://reactjs.org"
+          href="http://localhost:3000/chat.html"
           target="_blank"
           rel="noopener noreferrer"
         >

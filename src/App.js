@@ -9,14 +9,14 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <a
+        <button
           className="App-link"
-          href="http://localhost:3000/chat.html"
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => window.open('http://localhost:3000/chat.html')}
         >
-          Learn React
-        </a>
+          To Chat
+        </button>
       </header>
     </div>
   );

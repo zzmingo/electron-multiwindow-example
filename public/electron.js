@@ -11,6 +11,7 @@ function createWindow() {
     // Set the path of an additional "preload" script that can be used to
     // communicate between node-land and browser-land.
     webPreferences: {
+      webPreferences: { nativeWindowOpen: false },
       preload: path.join(__dirname, "preload.js"),
     },
   });
@@ -31,6 +32,16 @@ function createWindow() {
   if (!app.isPackaged) {
     mainWindow.webContents.openDevTools();
   }
+
+  
+  // This is the actual solution
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    console.log(url)
+    if (url.startsWith('http://localhost:3000/chat.html')) {
+      return { action: 'allow' }
+    }
+    return { action: 'deny' }
+  })
 }
 
 // Setup a local proxy to adjust the paths of requested files when loading
@@ -76,7 +87,7 @@ app.on("window-all-closed", function () {
 // If your app has no need to navigate or only needs to navigate to known pages,
 // it is a good idea to limit navigation outright to that known scope,
 // disallowing any other kinds of navigation.
-const allowedNavigationDestinations = "https://my-electron-app.com";
+const allowedNavigationDestinations = "http://localhost:3000/";
 app.on("web-contents-created", (event, contents) => {
   contents.on("will-navigate", (event, navigationUrl) => {
     const parsedUrl = new URL(navigationUrl);
